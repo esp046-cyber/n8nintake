@@ -1,67 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>n8n Automation Intake</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-.shell{background:var(--color-background-secondary);padding:1.5rem 1rem;border-radius:var(--border-radius-lg)}
-.hero{background:#0F172A;border-radius:16px;padding:1.5rem 1.25rem 1.25rem;margin-bottom:1rem;position:relative;overflow:hidden}
-.hero-a{position:absolute;top:-20px;right:-20px;width:100px;height:100px;border-radius:50%;background:#7F77DD;opacity:0.18}
-.hero-b{position:absolute;bottom:-30px;left:10px;width:70px;height:70px;border-radius:50%;background:#1D9E75;opacity:0.15}
-.badge{display:inline-flex;align-items:center;gap:6px;background:#1D9E75;color:#E1F5EE;font-size:11px;font-weight:500;padding:4px 10px;border-radius:20px;margin-bottom:10px}
-.bdot{width:6px;height:6px;border-radius:50%;background:#E1F5EE}
-.hero h1{font-size:20px;font-weight:500;color:#fff;line-height:1.3;margin-bottom:6px}
-.hero p{font-size:13px;color:#94A3B8}
-.prog-row{display:flex;align-items:center;gap:8px;margin-bottom:1rem}
-.pip{height:3px;flex:1;border-radius:2px;background:var(--color-border-tertiary);transition:background 0.3s}
-.pip.done{background:#7F77DD}
-.slabel{font-size:12px;color:var(--color-text-secondary);white-space:nowrap}
-.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:16px;padding:1.25rem;margin-bottom:1rem}
-.cicon{width:36px;height:36px;border-radius:10px;background:#EEEDFE;display:flex;align-items:center;justify-content:center;margin-bottom:12px}
-.qtitle{font-size:15px;font-weight:500;color:var(--color-text-primary);margin-bottom:3px}
-.qsub{font-size:12px;color:var(--color-text-secondary);margin-bottom:14px}
-.opt{display:flex;align-items:center;justify-content:space-between;padding:11px 12px;border-radius:10px;border:0.5px solid var(--color-border-tertiary);cursor:pointer;gap:12px;margin-bottom:8px;transition:border-color 0.15s,background 0.15s}
-.opt:hover{border-color:#7F77DD;background:#EEEDFE}
-.opt.sel{border-color:#7F77DD;background:#EEEDFE}
-.opt-label{font-size:14px;color:var(--color-text-primary)}
-.opt.sel .opt-label{color:#3C3489;font-weight:500}
-.ctrl{width:18px;height:18px;border-radius:50%;border:1.5px solid var(--color-border-secondary);flex-shrink:0;transition:all 0.15s}
-.ctrl.sq{border-radius:5px}
-.ctrl.on{background:#7F77DD;border-color:#7F77DD;display:flex;align-items:center;justify-content:center}
-.ctrl.on::after{content:'';display:block;width:7px;height:7px;border-radius:50%;background:#fff}
-.ctrl.sq.on::after{width:11px;height:9px;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 11 9' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 4.5L4 7.5L10 1' stroke='white' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat;border-radius:0}
-input[type=text],input[type=email],input[type=tel],textarea{width:100%;font-size:14px;padding:10px 12px;border:0.5px solid var(--color-border-secondary);border-radius:10px;background:var(--color-background-secondary);color:var(--color-text-primary);outline:none;font-family:var(--font-sans);transition:border-color 0.15s}
-input:focus,textarea:focus{border-color:#7F77DD}
-textarea{resize:vertical;min-height:80px}
-.flabel{font-size:12px;color:var(--color-text-secondary);margin-bottom:5px;margin-top:12px}
-.btn-row{display:flex;gap:8px}
-.bbk{padding:13px 18px;background:transparent;border:0.5px solid var(--color-border-secondary);border-radius:12px;font-size:14px;color:var(--color-text-secondary);cursor:pointer;font-family:var(--font-sans)}
-.bnx{flex:1;padding:13px;background:#7F77DD;color:#fff;border:none;border-radius:12px;font-size:14px;font-weight:500;cursor:pointer;font-family:var(--font-sans);transition:background 0.15s}
-.bnx:hover{background:#534AB7}
-.bnx:disabled{background:#AFA9EC;cursor:not-allowed}
-.toast{display:none;padding:10px 14px;border-radius:10px;font-size:13px;margin-bottom:10px;border:0.5px solid}
-.toast.err{background:var(--color-background-danger);color:var(--color-text-danger);border-color:var(--color-border-danger)}
-</style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+  :root {
+    --bg: #F4F3FF;
+    --surface: #FFFFFF;
+    --border: #E4E2FB;
+    --border-focus: #7F77DD;
+    --text-primary: #1A1740;
+    --text-secondary: #6B6894;
+    --text-muted: #9D9BBF;
+    --accent: #7F77DD;
+    --accent-light: #EEEDFE;
+    --accent-dark: #534AB7;
+    --green: #1D9E75;
+    --green-light: #E1F5EE;
+    --danger-bg: #FFF1F1;
+    --danger-text: #D94040;
+    --danger-border: #FFC9C9;
+  }
+
+  html, body {
+    min-height: 100%;
+    background: var(--bg);
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text-primary);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 16px;
+    padding-bottom: 40px;
+  }
+
+  .shell {
+    width: 100%;
+    max-width: 480px;
+  }
+
+  /* HERO */
+  .hero {
+    background: #0F172A;
+    border-radius: 20px;
+    padding: 24px 20px 20px;
+    margin-bottom: 12px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -30px; right: -30px;
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    background: #7F77DD;
+    opacity: 0.18;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -40px; left: 10px;
+    width: 90px; height: 90px;
+    border-radius: 50%;
+    background: #1D9E75;
+    opacity: 0.15;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--green);
+    color: var(--green-light);
+    font-size: 11px;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius: 20px;
+    margin-bottom: 12px;
+    position: relative; z-index: 1;
+  }
+  .bdot { width: 6px; height: 6px; border-radius: 50%; background: var(--green-light); }
+  .hero h1 {
+    font-size: 22px;
+    font-weight: 600;
+    color: #fff;
+    line-height: 1.3;
+    margin-bottom: 6px;
+    position: relative; z-index: 1;
+  }
+  .hero p {
+    font-size: 13px;
+    color: #94A3B8;
+    position: relative; z-index: 1;
+  }
+
+  /* PROGRESS */
+  .prog-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .pips { display: flex; gap: 5px; flex: 1; }
+  .pip {
+    height: 3px;
+    flex: 1;
+    border-radius: 2px;
+    background: #D6D4F5;
+    transition: background 0.3s;
+  }
+  .pip.done { background: var(--accent); }
+  .slabel {
+    font-size: 12px;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* TOAST */
+  .toast {
+    display: none;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 13px;
+    margin-bottom: 10px;
+    border: 1px solid;
+  }
+  .toast.err {
+    background: var(--danger-bg);
+    color: var(--danger-text);
+    border-color: var(--danger-border);
+  }
+
+  /* CARD */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 12px rgba(127,119,221,0.06);
+  }
+
+  .cicon {
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    background: var(--accent-light);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 14px;
+  }
+  .qtitle {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+    line-height: 1.4;
+  }
+  .qsub {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+  }
+
+  /* OPTIONS */
+  .opt {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    gap: 12px;
+    margin-bottom: 8px;
+    transition: border-color 0.15s, background 0.15s;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+  }
+  .opt:active { background: var(--accent-light); }
+  .opt.sel {
+    border-color: var(--accent);
+    background: var(--accent-light);
+  }
+  .opt-label {
+    font-size: 14px;
+    color: var(--text-primary);
+    flex: 1;
+    line-height: 1.4;
+  }
+  .opt.sel .opt-label { color: #3C3489; font-weight: 500; }
+
+  .ctrl {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    border: 1.5px solid #C8C5EB;
+    flex-shrink: 0;
+    transition: all 0.15s;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .ctrl.sq { border-radius: 6px; }
+  .ctrl.on {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+  .ctrl.on::after {
+    content: '';
+    display: block;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #fff;
+  }
+  .ctrl.sq.on::after {
+    width: 12px; height: 10px;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 12 10' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 5L4.5 8.5L11 1' stroke='white' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat;
+    border-radius: 0;
+  }
+
+  /* INPUTS */
+  .flabel {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+    margin-top: 14px;
+    display: block;
+  }
+  input[type=text],
+  input[type=email],
+  input[type=tel],
+  textarea {
+    width: 100%;
+    font-size: 15px;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: #FAFAFE;
+    color: var(--text-primary);
+    outline: none;
+    font-family: 'DM Sans', sans-serif;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  input:focus, textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(127,119,221,0.12);
+  }
+  textarea { resize: vertical; min-height: 90px; }
+
+  /* BUTTONS */
+  .btn-row {
+    display: flex;
+    gap: 8px;
+  }
+  .bbk {
+    padding: 14px 16px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    font-size: 16px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    -webkit-tap-highlight-color: transparent;
+    transition: background 0.15s;
+  }
+  .bbk:active { background: var(--border); }
+  .bnx {
+    flex: 1;
+    padding: 14px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 14px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: background 0.15s, opacity 0.15s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .bnx:active { background: var(--accent-dark); }
+  .bnx:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  /* SUCCESS */
+  .success-wrap {
+    text-align: center;
+    padding: 2rem 1rem;
+  }
+  .success-icon {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    background: var(--accent-light);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 18px;
+  }
+</style>
+</head>
+<body>
 <div class="shell">
-<h2 style="position:absolute;left:-9999px">n8n automation intake form</h2>
-<div class="hero">
-  <div class="hero-a"></div><div class="hero-b"></div>
-  <div class="badge"><div class="bdot"></div>n8n automation specialist</div>
-  <h1>Let's automate your business</h1>
-  <p>Answer 9 quick questions — get a custom proposal in 24hrs</p>
-</div>
-<div class="prog-row">
-  <div id="pips" style="display:flex;gap:5px;flex:1"></div>
-  <span class="slabel" id="slabel">1 of 9</span>
-</div>
-<div id="toast" class="toast"></div>
-<div id="card" class="card"></div>
-<div class="btn-row" id="btnrow">
-  <button class="bbk" id="backBtn" onclick="goBack()">&#8592;</button>
-  <button class="bnx" id="nextBtn" onclick="goNext()">Continue &rarr;</button>
-</div>
+  <div class="hero">
+    <div class="badge"><div class="bdot"></div>n8n automation specialist</div>
+    <h1>Let's automate your business</h1>
+    <p>Answer 9 quick questions — get a custom proposal in 24hrs</p>
+  </div>
+
+  <div class="prog-row">
+    <div class="pips" id="pips"></div>
+    <span class="slabel" id="slabel">1 of 9</span>
+  </div>
+
+  <div id="toast" class="toast"></div>
+  <div id="card" class="card"></div>
+
+  <div class="btn-row" id="btnrow">
+    <button class="bbk" id="backBtn" onclick="goBack()">&#8592;</button>
+    <button class="bnx" id="nextBtn" onclick="goNext()">Continue &rarr;</button>
+  </div>
 </div>
 
 <script>
-const SCRIPT_URL="https://script.google.com/macros/s/AKfycbwlRNVKfWktGiNttt81oAt4pAJgQZDxWEtLnfXwL7dBJ7GsNTaR9GfJ3lwg5jcUxZ4-Hw/exec";
-const icons=[
+// ─────────────────────────────────────────────
+//  REPLACE THIS with your deployed Apps Script URL
+//  Deploy > New deployment > Web app > Anyone
+// ─────────────────────────────────────────────
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwlRNVKfWktGiNttt81oAt4pAJgQZDxWEtLnfXwL7dBJ7GsNTaR9GfJ3lwg5jcUxZ4-Hw/exec";
+
+const icons = [
   '<svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2" y="2" width="6" height="6" rx="1.5" fill="#7F77DD"/><rect x="10" y="2" width="6" height="6" rx="1.5" fill="#AFA9EC"/><rect x="2" y="10" width="6" height="6" rx="1.5" fill="#AFA9EC"/><rect x="10" y="10" width="6" height="6" rx="1.5" fill="#CECBF6"/></svg>',
   '<svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7" stroke="#7F77DD" stroke-width="1.5"/><path d="M6 9h6M9 6v6" stroke="#7F77DD" stroke-width="1.5" stroke-linecap="round"/></svg>',
   '<svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 14l4-4 3 3 5-7" stroke="#1D9E75" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>',
@@ -72,99 +345,182 @@ const icons=[
   '<svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7" stroke="#7F77DD" stroke-width="1.5"/><path d="M9 5v4l3 2" stroke="#7F77DD" stroke-width="1.5" stroke-linecap="round"/></svg>',
   '<svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="6" r="3" stroke="#7F77DD" stroke-width="1.5"/><path d="M3 16c0-3.314 2.686-6 6-6s6 2.686 6 6" stroke="#7F77DD" stroke-width="1.5" stroke-linecap="round"/></svg>'
 ];
-const steps=[
-  {type:'radio',icon:0,title:'What best describes your business?',options:['Solo entrepreneur / freelancer','Small business (2–20 people)','Mid-size company (20–200)','Enterprise (200+)','Agency / consultancy']},
-  {type:'check',icon:1,title:'What tools do you currently use?',sub:'Select all that apply',options:['CRM (HubSpot, Salesforce, etc.)','Email marketing (Mailchimp, ActiveCampaign)','Spreadsheets (Google Sheets, Airtable)','E-commerce (Shopify, WooCommerce)','Project management (Notion, Asana, Trello)','Accounting (QuickBooks, Xero)','Other / not sure']},
-  {type:'check',icon:2,title:'What do you want to automate?',sub:'Select all that apply',options:['Lead capture & CRM updates','Invoice / payment notifications','Report generation & data sync','Email / Slack / WhatsApp alerts','Social media scheduling','File & document management','Custom API integrations']},
-  {type:'radio',icon:3,title:'How are you handling this today?',options:['Manually (copy-paste, spreadsheets)','Partial automation (Zapier / Make)','Broken or no process at all','Already have n8n, need help improving']},
-  {type:'radio',icon:4,title:'Desired timeline to go live?',options:['ASAP (within 2 weeks)','Standard (1 month)','Planning phase (1–3 months)','Just exploring for now']},
-  {type:'radio',icon:5,title:'Project budget',options:['$200 – $500','$500 – $1,500','$1,500 – $5,000','$5,000+','Not sure yet']},
-  {type:'check',icon:6,title:'How should we send your proposal?',sub:'Select all that apply',options:['WhatsApp','Work email','LinkedIn message','Zoom / Google Meet call']},
-  {type:'text',icon:7,title:'Any existing tools, docs, or links?',sub:"Paste a URL, Notion page, or Loom video. Type 'none' if N/A.",placeholder:'e.g. https://notion.so/my-process'},
-  {type:'contact',icon:8,title:'Almost done — your contact info',sub:'We assign a specialist within 24 hours.'}
+
+const steps = [
+  {type:'radio', icon:0, title:'What best describes your business?', options:['Solo entrepreneur / freelancer','Small business (2–20 people)','Mid-size company (20–200)','Enterprise (200+)','Agency / consultancy']},
+  {type:'check', icon:1, title:'What tools do you currently use?', sub:'Select all that apply', options:['CRM (HubSpot, Salesforce, etc.)','Email marketing (Mailchimp, ActiveCampaign)','Spreadsheets (Google Sheets, Airtable)','E-commerce (Shopify, WooCommerce)','Project management (Notion, Asana, Trello)','Accounting (QuickBooks, Xero)','Other / not sure']},
+  {type:'check', icon:2, title:'What do you want to automate?', sub:'Select all that apply', options:['Lead capture & CRM updates','Invoice / payment notifications','Report generation & data sync','Email / Slack / WhatsApp alerts','Social media scheduling','File & document management','Custom API integrations']},
+  {type:'radio', icon:3, title:'How are you handling this today?', options:['Manually (copy-paste, spreadsheets)','Partial automation (Zapier / Make)','Broken or no process at all','Already have n8n, need help improving']},
+  {type:'radio', icon:4, title:'Desired timeline to go live?', options:['ASAP (within 2 weeks)','Standard (1 month)','Planning phase (1–3 months)','Just exploring for now']},
+  {type:'radio', icon:5, title:'Project budget', options:['$200 – $500','$500 – $1,500','$1,500 – $5,000','$5,000+','Not sure yet']},
+  {type:'check', icon:6, title:'How should we send your proposal?', sub:'Select all that apply', options:['WhatsApp','Work email','LinkedIn message','Zoom / Google Meet call']},
+  {type:'text', icon:7, title:'Any existing tools, docs, or links?', sub:"Paste a URL, Notion page, or Loom video. Type 'none' if N/A.", placeholder:'e.g. https://notion.so/my-process'},
+  {type:'contact', icon:8, title:'Almost done — your contact info', sub:'We assign a specialist within 24 hours.'}
 ];
-let cur=0,ans=steps.map(()=>[]);
-let cd={name:'',company:'',email:'',phone:'',painPoint:''};
-function renderPips(){
-  document.getElementById('pips').innerHTML=steps.map((_,i)=>`<div class="pip${i<=cur?' done':''}"></div>`).join('');
-  document.getElementById('slabel').textContent=`${cur+1} of ${steps.length}`;
+
+let cur = 0;
+let ans = steps.map(() => []);
+let cd = { name:'', company:'', email:'', phone:'', painPoint:'' };
+
+function renderPips() {
+  document.getElementById('pips').innerHTML = steps.map((_,i) =>
+    `<div class="pip${i <= cur ? ' done' : ''}"></div>`
+  ).join('');
+  document.getElementById('slabel').textContent = `${cur+1} of ${steps.length}`;
 }
-function showToast(msg,type){
-  const t=document.getElementById('toast');
-  t.textContent=msg;t.className=`toast ${type}`;t.style.display='block';
+
+function showToast(msg, type) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = `toast ${type}`;
+  t.style.display = 'block';
+  setTimeout(() => { t.style.display = 'none'; }, 4000);
 }
-function render(){
+
+function render() {
   renderPips();
-  const s=steps[cur];
-  const c=document.getElementById('card');
-  document.getElementById('backBtn').style.visibility=cur===0?'hidden':'visible';
-  let html=`<div class="cicon">${icons[s.icon]}</div><div class="qtitle">${s.title}</div>${s.sub?`<div class="qsub">${s.sub}</div>`:'<div style="margin-bottom:14px"></div>'}`;
-  if(s.type==='radio'||s.type==='check'){
-    const sq=s.type==='check';
-    html+=s.options.map((o,i)=>{
-      const on=ans[cur].includes(i);
-      return `<div class="opt${on?' sel':''}" onclick="pick(${i})"><span class="opt-label">${o}</span><div class="ctrl${sq?' sq':''}${on?' on':''}"></div></div>`;
+  document.getElementById('toast').style.display = 'none';
+  const s = steps[cur];
+  const c = document.getElementById('card');
+  const nb = document.getElementById('nextBtn');
+  document.getElementById('backBtn').style.visibility = cur === 0 ? 'hidden' : 'visible';
+  nb.textContent = cur === steps.length - 1 ? 'Submit →' : 'Continue →';
+
+  let html = `<div class="cicon">${icons[s.icon]}</div>
+    <div class="qtitle">${s.title}</div>
+    ${s.sub ? `<div class="qsub">${s.sub}</div>` : '<div style="margin-bottom:16px"></div>'}`;
+
+  if (s.type === 'radio' || s.type === 'check') {
+    const sq = s.type === 'check';
+    html += s.options.map((o, i) => {
+      const on = ans[cur].includes(i);
+      return `<div class="opt${on ? ' sel' : ''}" onclick="pick(${i})">
+        <span class="opt-label">${o}</span>
+        <div class="ctrl${sq ? ' sq' : ''}${on ? ' on' : ''}"></div>
+      </div>`;
     }).join('');
-  } else if(s.type==='text'){
-    html+=`<input type="text" placeholder="${s.placeholder}" value="${ans[cur][0]||''}" oninput="ans[cur]=[this.value]">`;
+  } else if (s.type === 'text') {
+    html += `<input type="text" placeholder="${s.placeholder}" value="${ans[cur][0] || ''}"
+      oninput="ans[cur]=[this.value]" style="margin-top:4px">`;
   } else {
-    html+=`
-      <div class="flabel">Full name *</div><input type="text" placeholder="Your name" value="${cd.name}" oninput="cd.name=this.value">
-      <div class="flabel">Company name</div><input type="text" placeholder="Optional" value="${cd.company}" oninput="cd.company=this.value">
-      <div class="flabel">Work email *</div><input type="email" placeholder="you@company.com" value="${cd.email}" oninput="cd.email=this.value">
-      <div class="flabel">WhatsApp / phone</div><input type="tel" placeholder="+63 9XX XXX XXXX" value="${cd.phone}" oninput="cd.phone=this.value">
-      <div class="flabel">Briefly describe your main pain point</div>
+    // contact
+    html += `
+      <label class="flabel">Full name *</label>
+      <input type="text" placeholder="Your name" value="${cd.name}" oninput="cd.name=this.value">
+      <label class="flabel">Company name</label>
+      <input type="text" placeholder="Optional" value="${cd.company}" oninput="cd.company=this.value">
+      <label class="flabel">Work email *</label>
+      <input type="email" placeholder="you@company.com" value="${cd.email}" oninput="cd.email=this.value" inputmode="email">
+      <label class="flabel">WhatsApp / phone</label>
+      <input type="tel" placeholder="+63 9XX XXX XXXX" value="${cd.phone}" oninput="cd.phone=this.value" inputmode="tel">
+      <label class="flabel">Briefly describe your main pain point</label>
       <textarea placeholder="e.g. I manually copy leads from Facebook Ads into a spreadsheet every day..." oninput="cd.painPoint=this.value">${cd.painPoint}</textarea>`;
   }
-  c.innerHTML=html;
+
+  c.innerHTML = html;
+  c.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
-function pick(i){
-  const s=steps[cur];
-  if(s.type==='radio'){ans[cur]=[i];}
-  else{const x=ans[cur].indexOf(i);x>-1?ans[cur].splice(x,1):ans[cur].push(i);}
+
+function pick(i) {
+  const s = steps[cur];
+  if (s.type === 'radio') {
+    ans[cur] = [i];
+  } else {
+    const x = ans[cur].indexOf(i);
+    x > -1 ? ans[cur].splice(x, 1) : ans[cur].push(i);
+  }
   render();
 }
-function getLabel(si,indices){
-  if(!indices||!indices.length)return '';
-  return indices.map(i=>steps[si].options[i]).join(', ');
+
+function getLabel(si, indices) {
+  if (!indices || !indices.length) return '';
+  return indices.map(i => steps[si].options[i]).join(', ');
 }
-async function submitToSheets(){
-  const btn=document.getElementById('nextBtn');
-  btn.disabled=true;btn.textContent='Submitting...';
-  const payload={
-    businessType:getLabel(0,ans[0]),tools:getLabel(1,ans[1]),
-    automate:getLabel(2,ans[2]),currentProcess:getLabel(3,ans[3]),
-    timeline:getLabel(4,ans[4]),budget:getLabel(5,ans[5]),
-    channel:getLabel(6,ans[6]),links:ans[7][0]||'',
-    name:cd.name,company:cd.company,email:cd.email,phone:cd.phone,painPoint:cd.painPoint
+
+async function submitToSheets() {
+  const btn = document.getElementById('nextBtn');
+  btn.disabled = true;
+  btn.textContent = 'Submitting...';
+
+  const payload = {
+    businessType: getLabel(0, ans[0]),
+    tools:        getLabel(1, ans[1]),
+    automate:     getLabel(2, ans[2]),
+    currentProcess: getLabel(3, ans[3]),
+    timeline:     getLabel(4, ans[4]),
+    budget:       getLabel(5, ans[5]),
+    channel:      getLabel(6, ans[6]),
+    links:        ans[7][0] || '',
+    name:         cd.name,
+    company:      cd.company,
+    email:        cd.email,
+    phone:        cd.phone,
+    painPoint:    cd.painPoint
   };
-  try{
-    await fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+
+  try {
+    // Using no-cors because Apps Script doesn't send CORS headers on error,
+    // but a properly deployed Web App (Anyone access) WILL accept the POST.
+    // We assume success if fetch doesn't throw a network error.
+    const res = await fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
     showSuccess();
-  }catch(err){
-    showToast('Submission failed. Please try again.','err');
-    btn.disabled=false;btn.textContent='Submit';
+  } catch (err) {
+    showToast('Network error. Please check your connection and try again.', 'err');
+    btn.disabled = false;
+    btn.textContent = 'Submit →';
   }
 }
-function showSuccess(){
-  document.getElementById('card').innerHTML=`
-    <div style="text-align:center;padding:2rem 1rem">
-      <div style="width:56px;height:56px;border-radius:50%;background:#EEEDFE;display:flex;align-items:center;justify-content:center;margin:0 auto 16px">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5L20 7" stroke="#7F77DD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+
+function showSuccess() {
+  document.getElementById('card').innerHTML = `
+    <div class="success-wrap">
+      <div class="success-icon">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+          <path d="M6 14l6 6L22 8" stroke="#7F77DD" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
       </div>
-      <div class="qtitle" style="font-size:17px;margin-bottom:8px">You're all set!</div>
-      <div class="qsub" style="font-size:14px">Thank you! We've received your details and will be in touch within 24 hours with a custom proposal.</div>
+      <div class="qtitle" style="font-size:18px;margin-bottom:10px">You're all set! 🎉</div>
+      <div class="qsub" style="font-size:14px;line-height:1.6">
+        We've received your details and will send your custom automation proposal within <strong>24 hours</strong>.
+      </div>
     </div>`;
-  document.getElementById('btnrow').style.display='none';
-  document.getElementById('toast').style.display='none';
+  document.getElementById('btnrow').style.display = 'none';
+  document.getElementById('toast').style.display = 'none';
   renderPips();
 }
-function goNext(){
-  if(cur===steps.length-1){
-    if(!cd.name||!cd.email){showToast('Please fill in your name and email.','err');return;}
+
+function goNext() {
+  if (cur === steps.length - 1) {
+    if (!cd.name.trim() || !cd.email.trim()) {
+      showToast('Please fill in your name and email.', 'err');
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cd.email)) {
+      showToast('Please enter a valid email address.', 'err');
+      return;
+    }
     submitToSheets();
-  } else {cur++;render();}
+  } else {
+    cur++;
+    render();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 }
-function goBack(){if(cur>0){cur--;render();}}
+
+function goBack() {
+  if (cur > 0) {
+    cur--;
+    render();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}
+
 render();
 </script>
+</body>
+</html>
